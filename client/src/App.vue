@@ -1,7 +1,7 @@
 <template>
   <div class='home'>
     Hello world
-    <ul v-for='recipe in recipes' :key='recipe.title'>
+    <ul v-for='recipe in recipes' :key='recipe.name'>
       <li>
         {{ recipe.description }}
       </li>
@@ -24,9 +24,9 @@ export default {
     return {
       recipes:
       {
-        sessionId: Math.floor(Math.random() * 10) + 1,
-        name: 'Pizza',
-        description: 'Yummy pizza for those lazy days',
+        sessionId: Math.floor(Math.random() * 10000000000),
+        name: 'This is real test data',
+        description: 'teengage mutant ninja turtles ',
       },
     }
   },
