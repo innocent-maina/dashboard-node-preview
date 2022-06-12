@@ -1,36 +1,23 @@
-# client setup
+# Preview - (server)
 
-## Project setup
-```
+> Initiative Preview Feature
+
+## Installation
+
+```bash
+### Clone the git repository
+git clone
+
+### Install project dependencies
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-# server setup
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
+### Initialize development server
 npm run dev
+
+### Run production
+npm start
 ```
 
+### Author
 
-
+- [Innocent Wahome](mailto: innocentwahome@gmail.com)

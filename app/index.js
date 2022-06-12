@@ -11,10 +11,10 @@ require('./config/database')(mongoose);
 
 // importing routes form .routes
 const {
-  ProjectRoutes
+  PreviewRoutes
 } = require('./routes');
 
-// initializng the app
+// initializing the app
 const app = express();
 
 //  required middleware
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 // routes
-app.use('/api/v1/projects', ProjectRoutes);
+app.use('/api/v1/preview', PreviewRoutes);
 
 // define the port
 const port = parseInt(process.env.PORT, 10) || 3000;
