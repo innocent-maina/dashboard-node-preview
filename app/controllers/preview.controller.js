@@ -1,8 +1,11 @@
 const { Preview } = require("../models");
+const mongoose = require('mongoose')
+const fs = require('fs')
+// const myDatabase = require('../database.json')
 
 module.exports = {
   /**
-   * GET /api/v1/previews
+   * GET /api/v1/preview
    *
    * @param req
    * @param res
@@ -10,7 +13,14 @@ module.exports = {
    */
   getAllPreviews: async (req, res) => {
     try {
-      const previews = await Preview.find({});
+      // const previews = await Preview.find({});
+      const previews = await fs.readFile('./database.json', 'utf-8', (err, jsonString) => {
+        if(err) {
+          console.log(err)
+        } else {
+          console.log(jsonString)
+        }
+      })
       return res.status(200).json({
         success: true,
         message: "Successfully retrieved all previews",
@@ -26,7 +36,7 @@ module.exports = {
   },
 
   /**
-   * POST /api/v1/previews
+   * POST /api/v1/preview
    *
    * @param req
    * @param res
@@ -34,9 +44,16 @@ module.exports = {
    */
   createNewPreview: async (req, res) => {
     try {
-      const preview = await Preview.create(req.body);
-      // const previewGivenId = req.body.sessionId
-      // console.log(`Created preview successfully, sessionId: ${previewGivenId}`)
+      const preview = [{
+        previewId: req.body.previewId,
+        previewData: req.body.previewData,
+      }]
+
+      let data = JSON.stringify(preview, null, 2)
+
+    await fs.writeFile('./database.json', data, {'flags': 'wx'} , (err) => {
+      if (err) throw err
+     })
       return res.status(200).json({
         success: true,
         message: "Successfully created the preview",
@@ -51,40 +68,43 @@ module.exports = {
     }
   },
 
-  // /**
-  //  * GET /api/v1/previews/:id
-  //  *
-  //  * @param req
-  //  * @param res
-  //  * @returns {Promise<*>}
-  //  */
-  // showSinglePreview: async (req, res) => {
-  //   try {
-  //     const previewData = await Preview.find().sort({_id:-1}).limit(1);
-  //     const previewId = previewData[0]._id
-  //     console.log(previewId)
-  //     const preview = await Preview.findById(previewId);
-  //     // console.log(`New preview launched, sessionId: ${previewId}`)
-  //     if (!preview) {
-  //       return res.status(404).json({
-  //         success: true,
-  //         message: "Preview not found",
-  //         data: null,
-  //       });
-  //     }
-  //     return res.status(200).json({
-  //       success: true,
-  //       message: "Successfully retrieved the preview",
-  //       data: preview,
-  //     });
-  //   } catch (error) {
-  //     return res.status(500).json({
-  //       success: false,
-  //       message: error.message,
-  //       data: error,
-  //     });
-  //   }
-  // },
+
+  /**
+   * PUT /api/v1/preview/:id
+   *
+   * @param req
+   * @param res
+   * @returns {Promise<*>}
+   */
+   updateSinglePreview: async (req, res) => {
+    mongoose.Types.ObjectId.isValid('previewId');
+    try {
+      const preview = await Preview.findByIdAndUpdate({ previewId: req.params.id }, {
+        previewId: req.body.previewId,
+        previewData: req.body.previewData,
+      }, {
+        upsert: true,
+      });
+      if (!preview) {
+        return res.status(404).json({
+          success: true,
+          message: 'Preview not found',
+          data: null,
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: 'Successfully updated the preview',
+        data: preview,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+        data: error,
+      });
+    }
+  },
 
     /**
    * GET /api/v1/preview/:id
@@ -118,7 +138,7 @@ module.exports = {
     },
 
   /**
-   * DELETE /api/v1/previews/:id
+   * DELETE /api/v1/preview/:id
    *
    * @param req
    * @param res

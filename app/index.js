@@ -3,16 +3,29 @@ require('dotenv/config');
 
 // importing required modules
 const express = require('express');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const cors = require('cors');
 
 // database configurations
-require('./config/database')(mongoose);
+// require('./config/database')(mongoose);
+// const data = require('./config/database.json');
+// // console.log('our db has this', data)
+// const fs = require('fs')
 
+// const newData = [{
+//   "previewId": 93928923,
+//   "previewData": "wahome wahome wahome wahome wahome whaome wahome wahome wahome wahome",
+// }]
+
+// fs.writeFile('database.json', JSON.stringify(newData), (err) => {
+//   if (err) throw err;
+//   console.log('done writing')
+// })
 // importing routes form .routes
 const {
   PreviewRoutes
 } = require('./routes');
+
 
 // initializing the app
 const app = express();

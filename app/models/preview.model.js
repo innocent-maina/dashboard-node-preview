@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const PreviewSchema = new Schema({
   previewId: {
-    type: Number,
+    type: String,
     required: false,
   },
   previewData: {
