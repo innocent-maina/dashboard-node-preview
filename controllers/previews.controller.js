@@ -33,20 +33,31 @@ const previewRoutes = (app, fs) => {
     });
   };
 
+
+
+
+  const myTimeout = (async) => {
+    setTimeout(function(){
+      fs.writeFile(dataPath, '{}', function(){console.log('done')})
+
+   }, 86400);//wait 24 hours
+  }
+
+  myTimeout()
   // READ
   app.get("/previews", (req, res) => {
     fs.readFile(dataPath, "utf8", (err, data) => {
       if (err) {
         throw err;
       }
-
       res.send(JSON.parse(data));
     });
   });
 
     // GET PREVIEW BY ID
-    app.get("/previews/:id", (req, res) => {
+    app.get("/previews/:id", async(req, res) => {
       readFile((data) => {
+
         // fetch the preview by id
         const previewId = req.params["id"];
         const newData = data[previewId]
@@ -57,15 +68,19 @@ const previewRoutes = (app, fs) => {
     });
 
   // CREATE
-  app.post("/previews", (req, res) => {
-    readFile((data) => {
+  app.post("/previews", async (req, res) => {
+     readFile((data) => {
       const newPreviewId = req.body.previewId
 
       // add the new preview
       data[newPreviewId.toString()] = req.body;
 
       writeFile(JSON.stringify(data, null, 2), () => {
+        setTimeout(function(){
+          console.log("Sup!");
+       }, 2000);//wait 2 seconds
         res.status(200).send("new preview added");
+
       });
     }, true);
   });
