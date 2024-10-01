@@ -1,6 +1,4 @@
-# Preview - (server)
-
-> This is a Node.JS server with JSON database
+# Node.JS Server with JSON file as Database
 
 ## Installation
 
