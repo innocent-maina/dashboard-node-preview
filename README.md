@@ -1,6 +1,6 @@
 # Preview - (server)
 
-> Initiative Preview Feature
+> This is a Node.JS server with JSON database
 
 ## Installation
 
